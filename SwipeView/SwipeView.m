@@ -896,7 +896,16 @@
     [self setItemView:view forIndex:index];
     [self setFrameForView:view atIndex:index];
     view.userInteractionEnabled = YES;
+    
+    if (_delegate && [_delegate respondsToSelector:@selector(swipeView:willAddSubview:forItemAtIndex:)])
+    {
+        [self.delegate swipeView:self willAddSubview:oldView forItemAtIndex:index];
+    }
     [_scrollView addSubview:view];
+    if (_delegate && [_delegate respondsToSelector:@selector(swipeView:didAddSubview:forItemAtIndex:)])
+    {
+        [self.delegate swipeView:self didAddSubview:oldView forItemAtIndex:index];
+    }
     
     return view;
 }
@@ -959,7 +968,15 @@
             {
                 UIView *view = _itemViews[number];
                 [self queueItemView:view];
+                if (_delegate && [_delegate respondsToSelector:@selector(swipeView:willRemoveSubview:forItemAtIndex:)])
+                {
+                    [self.delegate swipeView:self willRemoveSubview:view forItemAtIndex:number.integerValue];
+                }
                 [view removeFromSuperview];
+                if (_delegate && [_delegate respondsToSelector:@selector(swipeView:didRemoveSubview:forItemAtIndex:)])
+                {
+                    [self.delegate swipeView:self didRemoveSubview:view forItemAtIndex:number.integerValue];
+                }
                 [_itemViews removeObjectForKey:number];
             }
         }

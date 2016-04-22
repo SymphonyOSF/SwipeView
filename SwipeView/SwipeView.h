@@ -122,6 +122,22 @@ typedef NS_ENUM(NSUInteger, SwipeViewAlignment)
 - (BOOL)swipeView:(SwipeView *)swipeView shouldSelectItemAtIndex:(NSInteger)index;
 - (void)swipeView:(SwipeView *)swipeView didSelectItemAtIndex:(NSInteger)index;
 
+//These method gives you the overrides you need to have the subviews controlled by a UIViewController
+//Presumably you will call -[willMoveToParentViewController:nil]
+- (void)swipeView:(SwipeView *)swipeView willRemoveSubview:(UIView *)view forItemAtIndex:(NSInteger)index;
+
+//These method gives you the overrides you need to have the subviews controlled by a UIViewController
+//Presumably you will call -[removeFromParentViewController]
+- (void)swipeView:(SwipeView *)swipeView didRemoveSubview:(UIView *)view forItemAtIndex:(NSInteger)index;
+
+//These method gives you the overrides you need to have the subviews controlled by a UIViewController
+//Presumably you will call -[addChildViewController:]
+- (void)swipeView:(SwipeView *)swipeView willAddSubview:(UIView *)view forItemAtIndex:(NSInteger)index;
+
+//These method gives you the overrides you need to have the subviews controlled by a UIViewController
+//Presumably you will call -[didMoveToParentViewController:]
+- (void)swipeView:(SwipeView *)swipeView didAddSubview:(UIView *)view forItemAtIndex:(NSInteger)index;
+
 @end
 
 
