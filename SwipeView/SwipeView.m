@@ -581,10 +581,12 @@
 }
 
 - (void)traitCollectionDidChange:(UITraitCollection *)previousTraitCollection {
+    [super traitCollectionDidChange:previousTraitCollection];
+    
     BOOL isSameVertical = previousTraitCollection.verticalSizeClass != self.traitCollection.verticalSizeClass;
     BOOL isSameHorizontal = previousTraitCollection.horizontalSizeClass != self.traitCollection.horizontalSizeClass;
     
-    _suppressScrollOnTraitChange = !isSameVertical || !isSameHorizontal;
+    self.suppressScrollOnTraitChange = !isSameVertical || !isSameHorizontal;
 }
 
 #pragma mark -
@@ -1162,8 +1164,8 @@
 
 - (void)scrollViewDidScroll:(__unused UIScrollView *)scrollView
 {
-    if (_suppressScrollOnTraitChange) {
-        _suppressScrollOnTraitChange = NO;
+    if (self.suppressScrollOnTraitChange) {
+        self.suppressScrollOnTraitChange = NO;
         return;
     }
     
