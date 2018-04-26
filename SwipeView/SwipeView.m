@@ -580,7 +580,8 @@
     }
 }
 
-- (void)traitCollectionDidChange:(UITraitCollection *)previousTraitCollection {
+- (void)traitCollectionDidChange:(UITraitCollection *)previousTraitCollection
+{
     [super traitCollectionDidChange:previousTraitCollection];
     
     BOOL isSameVertical = previousTraitCollection.verticalSizeClass != self.traitCollection.verticalSizeClass;
