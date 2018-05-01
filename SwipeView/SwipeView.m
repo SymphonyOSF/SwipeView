@@ -74,6 +74,7 @@
 @property (nonatomic, assign) CGPoint previousContentOffset;
 @property (nonatomic, assign) CGSize itemSize;
 @property (nonatomic, assign) BOOL suppressScrollEvent;
+@property (nonatomic, assign) BOOL suppressScrollOnTraitChange;
 @property (nonatomic, assign) NSTimeInterval scrollDuration;
 @property (nonatomic, assign, getter = isScrolling) BOOL scrolling;
 @property (nonatomic, assign) NSTimeInterval startTime;
@@ -577,6 +578,16 @@
     {
         [self scrollToItemAtIndex:self.currentItemIndex duration:0.25];
     }
+}
+
+- (void)traitCollectionDidChange:(UITraitCollection *)previousTraitCollection
+{
+    [super traitCollectionDidChange:previousTraitCollection];
+    
+    BOOL isSameVertical = previousTraitCollection.verticalSizeClass != self.traitCollection.verticalSizeClass;
+    BOOL isSameHorizontal = previousTraitCollection.horizontalSizeClass != self.traitCollection.horizontalSizeClass;
+    
+    self.suppressScrollOnTraitChange = !isSameVertical || !isSameHorizontal;
 }
 
 #pragma mark -
@@ -1154,6 +1165,11 @@
 
 - (void)scrollViewDidScroll:(__unused UIScrollView *)scrollView
 {
+    if (self.suppressScrollOnTraitChange) {
+        self.suppressScrollOnTraitChange = NO;
+        return;
+    }
+    
     if (!_suppressScrollEvent)
     {
         //stop scrolling animation
